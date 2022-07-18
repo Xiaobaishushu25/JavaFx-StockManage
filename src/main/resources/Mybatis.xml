@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="jdbc.properties"/>
+    <!-- 设置日志-->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+<!--    <plugins>-->
+<!--        <plugin interceptor ="com.github.pagehelper.PageInterceptor" />-->
+<!--    </plugins>-->
+    <!--
+    environments：配置数据库连接环境信息。可以配置多个environment，通过default属性切换不同的environment
+    -->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <!--数据库连接信息-->
+                <property name="driver" value="${driverClass}"/>
+                <property name="url" value="${url1}"/>
+                <property name="username" value="${user}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+
+    </environments>
+    <mappers>
+        <!--加载sql映射文件-->
+        <!--        <mapper resource="com/Xbss/dao/StudentDao.xml"/>-->
+        <package name="Xbss.Mapper"/>
+    </mappers>
+</configuration>
