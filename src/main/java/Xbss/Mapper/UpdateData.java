@@ -17,4 +17,8 @@ public interface UpdateData {
     Integer updatePriceEst(@Param("allMax")String allMax,@Param("allMin")String allMin,@Param("code")String code);
     @Update("UPDATE stockinfo SET box=#{box} WHERE `code` = #{code}")
     Integer updateBox(@Param("box")String box,@Param("code")String code);
+    @Update("UPDATE stockinfo SET buy=#{buy} WHERE `code` = #{code}")
+    Integer updateGoldOrDie(@Param("buy")String flag,@Param("code")String code);
+    @Update("UPDATE stockinfo SET `index`=#{index} WHERE `code` = #{code}")
+    Integer updateIndex(@Param("index")Integer index,@Param("code")String code);
 }

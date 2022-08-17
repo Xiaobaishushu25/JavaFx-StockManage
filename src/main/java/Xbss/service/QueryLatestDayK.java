@@ -11,7 +11,7 @@ import org.apache.ibatis.session.SqlSession;
  * @author Xbss
  * @version 1.0
  * @create 2022-07-13-23:27
- * @descirbe
+ * @descirbe ：根据传入的股票代码查询最新的日线数据
  */
 public class QueryLatestDayK {
     public static DayK queryLatestDayK(String code){

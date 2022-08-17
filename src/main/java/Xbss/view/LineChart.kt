@@ -14,6 +14,7 @@ import java.util.StringJoiner
  * @version  1.0
  * @descirbe
  */
+
 fun getLineChart(type:MutableList<Int>,mapData:ArrayList<ArrayList<Pair<String,Double>>>,allMin:Double,allMax:Double,chartName:String): LineChart<String, Number> {
     val x = CategoryAxis()
     val y = NumberAxis("价格", allMin-0.1, allMax+0.1, 0.05)

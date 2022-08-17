@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author Xbss
  * @version 1.0
  * @create 2022-07-13-23:52
- * @descirbe
+ * @descirbe :返回stockInfo表中所有的股票数据信息
  */
 public class QueryAllStock {
     public static ArrayList<StockInfo> queryAllStock(){

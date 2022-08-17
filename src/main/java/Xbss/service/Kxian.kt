@@ -5,6 +5,7 @@ import Xbss.data.getAll
 import Xbss.data.getKLine
 import Xbss.view.getLineChart
 import javafx.application.Application
+import javafx.event.ActionEvent
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Scene
@@ -12,12 +13,14 @@ import javafx.scene.chart.XYChart
 import javafx.scene.control.Button
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
+import java.beans.EventHandler
+import kotlin.concurrent.thread
 
 /**
  * @author  Xbss
  * @create 2022-07-17-14:49
  * @version  1.0
- * @descirbe
+ * @describe
  */
 class Kxian(code:String):Application() {
     var code=code
@@ -26,7 +29,7 @@ class Kxian(code:String):Application() {
         val kLine = getKLine(dayKS as ArrayList<DayK>)
         val size = dayKS.size
         val msg = getAll(code)
-        var lineChart = getLineChart(mutableListOf<Int>(5,10,20), kLine, msg[0].toString().toDouble(),msg[1].toString().toDouble(),msg[2].toString())
+        var lineChart = getLineChart(mutableListOf(5,10,20), kLine, msg[0].toString().toDouble(),msg[1].toString().toDouble(),msg[2].toString())
 //        val button = Button().apply{
 //            setOnAction {
 //                lineChart.data[0].data.clear()

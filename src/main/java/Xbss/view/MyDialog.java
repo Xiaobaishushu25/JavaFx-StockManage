@@ -14,8 +14,8 @@ import javafx.stage.Stage;
  * @author Xbss
  * @version 1.0
  * @create 2022-06-10-11:51
- * @descirbe :调用这个类（实例化的时候需要传入一个String类型的tip）显示一个弹窗
- * param ：String tip;
+ * @descirbe :调用这个类（显示一个下载窗口
+ * param ：
  * return :一个dialog类，通过dialog.start（new Stage（））启动
  */
 public class MyDialog extends Application {

@@ -8,6 +8,8 @@ import Xbss.data.ComputeBoxArea;
 import Xbss.service.DownDayK;
 import Xbss.service.InsertBox;
 import Xbss.service.UpdateDayK;
+import Xbss.view.MainWindow;
+import com.sun.webkit.network.CookieManager;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -20,8 +22,12 @@ import Xbss.Mapper.Query;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.CookieHandler;
+//import java.net.CookieManager;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -167,9 +173,61 @@ public class MyTest  {
     }
     @Test
     public void test15() throws IOException {
-        ArrayList<Integer> ints = new ArrayList<Integer>();
-        System.out.println(DoubleUtil.addDouble(4.63,0.6));
+//        CookieHandler.setDefault(new java.net.CookieManager());
+        CookieHandler.setDefault(new com.sun.webkit.network.CookieManager());
+//        CookieManager handler = (CookieManager) CookieManager.getDefault();
+//        CookieManager handler = (CookieManager) CookieHandler.getDefault();
+        CookieManager handler = (CookieManager) CookieHandler.getDefault();
+        try {
+            Map<String, List<String>> map = handler.get(new URI("https://docs.microsoft.com/zh-cn/dotnet/api/java.net.cookiehandler?view=xamarin-android-sdk-12"), new HashMap<>());
+//            System.out.println(map==null);
+            System.out.println(map.size());
+            for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+                System.out.println(entry.getKey()+"----"+entry.getValue());
+            }
 
+//            List<String> cookie1 = map.get("Cookie");
+//            System.out.println(cookie1.get(0));
+//            for (String cookie : map.get("Cookie")) {
+//                System.out.println(cookie);
+//            }
+
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Test
+    public void test16(){
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        list.add(5);
+        list.add(7);
+        list.add(8);
+//        list.remove(0);
+        new Thread(()->{
+            for (Integer i : list) {
+                System.out.println(i);
+            }
+        }).start();
+        Iterator<Integer> iterator = list.iterator();
+        while (iterator.hasNext()){
+            Integer next = iterator.next();
+            if (next==3)
+                iterator.remove();
+//                list.remove(3);
+        }
+//            iterator.remove();
+//        for (int i = 0; i < list.size(); i++) {
+//            if (i==list.size()-1){
+//                list.remove(i);
+//            }
+//        }
+        for (Integer i : list) {
+            System.out.println(i);
+        }
     }
 
 

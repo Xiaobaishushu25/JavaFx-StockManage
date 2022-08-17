@@ -5,6 +5,7 @@ import Xbss.Mapper.Query;
 import Xbss.Mapper.UpdateData;
 import Xbss.Utils.GetSqlSession;
 import Xbss.Utils.GetTableName;
+import Xbss.Utils.JudgeStockMarket;
 import Xbss.bean.StockInfo;
 import Xbss.data.ComputeMA;
 import Xbss.view.DownLoadStage;
@@ -38,13 +39,13 @@ public class DownDayK {
 
         DownLoadStage.denominator=(int)between;
 
-        String type=code.substring(0, 2);
-        if (type.equals("51")){
-//            url="https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param="+"sh"+code+",day,2021-7-4,2022-7-11,300,qfq";
-            url="https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param="+"sh"+code+",day,"+beginDay+","+endDay+","+between+",qfq";
-        }else if (type.equals("15")){
-            url="https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param="+"sz"+code+",day,"+beginDay+","+endDay+","+between+",qfq";
-        }
+//        String type=code.substring(0, 2);
+//        if (type.equals("51")){
+//            url="https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param="+"sh"+code+",day,"+beginDay+","+endDay+","+between+",qfq";
+//        }else if (type.equals("15")){
+//            url="https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param="+"sz"+code+",day,"+beginDay+","+endDay+","+between+",qfq";
+//        }
+        url="https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param="+ JudgeStockMarket.judgeStockMarket(code) +code+",day,"+beginDay+","+endDay+","+between+",qfq";
         System.out.println(url);
         HttpResponse<String> response = Unirest.get(url).asString();
         Matcher matcher = Pattern.compile("(?<=\"data\":\\{\".{1,10}\":)\\{\".{0,3}day\":.*?(?=,\"qt)").matcher(response.getBody());
@@ -80,7 +81,6 @@ public class DownDayK {
             DownLoadStage.numerator.set(DownLoadStage.numValue++);
             if (DownLoadStage.numValue%50==0){
                 DownLoadStage.progress.set(DownLoadStage.proValue++);
-
             }
         }
         DownLoadStage.numerator.set(1000);

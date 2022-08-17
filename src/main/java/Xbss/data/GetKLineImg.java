@@ -37,9 +37,6 @@ public class GetKLineImg {
             url="http://webquoteklinepic.eastmoney.com/GetPic.aspx?nid=0."+code+"&type=&unitWidth="+unitWidth+"&ef=&formula=RSI&AT=1&imageType=KXL&timespan=1657875538";
         }
         HttpResponse<byte[]> response = Unirest.get(url).asBytes();
-//        ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(response.getBody())));
-//        imageView.setFitWidth(600);
-//        imageView.setFitHeight(400);
         return new Image(new ByteArrayInputStream(response.getBody()));
     }
 }

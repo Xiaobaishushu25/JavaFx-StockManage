@@ -20,7 +20,8 @@ import java.util.List;
 public interface Query {
     @Select("select * from stockInfo where code = #{code}")
     StockInfo queryStockInfo(@Param("code")String code);
-    @Select("select * from stockInfo")
+//    @Select("select * from stockInfo order by index")
+    @Select("select * from stockInfo ORDER BY `index` ASC")
     ArrayList<StockInfo> queryAllStock();
     @Select("select * from ${tableName}")
     List<DayK> selectByCode(@Param("tableName") String tableName);

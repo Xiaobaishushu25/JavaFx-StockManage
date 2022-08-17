@@ -16,14 +16,14 @@ import java.util.ArrayList;
  */
 @Accessors(chain = true)
 public class TableInfo {
-    private String code;
-    private String name;
-    private SimpleStringProperty price=new SimpleStringProperty();
-    private SimpleStringProperty change=new SimpleStringProperty();
-    private SimpleListProperty<SimpleStringProperty> boxArea=new SimpleListProperty<>();
+    private String code;//股票代码
+    private String name;//名称
+    private SimpleStringProperty price=new SimpleStringProperty();//现价
+    private SimpleStringProperty change=new SimpleStringProperty();//涨跌幅
+    private SimpleListProperty<SimpleStringProperty> boxArea=new SimpleListProperty<>();//箱体区域信息
 //    private ArrayList<SimpleStringProperty> boxArea=new ArrayList<>();
-    private SimpleStringProperty MaMsg=new SimpleStringProperty();
-    private SimpleStringProperty priceToMa=new SimpleStringProperty();
+    private SimpleStringProperty MaMsg=new SimpleStringProperty();//均线多头缠绕空头信息
+    private SimpleStringProperty priceToMa=new SimpleStringProperty();//现价与均线关系
     private SimpleStringProperty tip=new SimpleStringProperty();
     private String data;//这个data目前用于存放箱体数据信息
     private DayK dayK;

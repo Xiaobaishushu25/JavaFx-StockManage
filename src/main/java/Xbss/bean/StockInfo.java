@@ -18,9 +18,8 @@ public class StockInfo {
     public String code;
     public String name;
     public String box;
-    public String buy;
+    public String buy;//大于、金叉，小于、死叉
     public String sell;
-
     public Double allMax;
     public Double allMin;
 }
