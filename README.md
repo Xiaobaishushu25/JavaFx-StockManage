@@ -1,4 +1,7 @@
 # 一个用javafx写的看股票的小工具目前只做了看etf的，只需要配置一下数据库就可以运行
+v5.0：更新删除功能：![image](https://user-images.githubusercontent.com/76581880/185080352-c91f9a13-7dba-4451-9965-49ec03e0c413.png)
+更新拖拽排序功能、更新蜡烛图展示功能：![image](https://user-images.githubusercontent.com/76581880/185080541-092c9fdc-a60e-486f-a80c-d3e8e3b391a3.png)
+
 V3.0:更新筛选功能、日线金叉死叉判断、删除股票：
 筛选：![image](https://user-images.githubusercontent.com/76581880/183048368-fc06886e-9c5f-408b-b633-fb2f01cc46be.png)
 
