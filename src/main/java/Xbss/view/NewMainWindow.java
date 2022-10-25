@@ -37,7 +37,7 @@ import java.util.*;
  * @author Xbss
  * @version 1.0
  * @create 2022-07-13-23:40
- * @descirbe
+ * @descirbe ：把cell独立写的话比较清爽，但是拖拽排序的功能失效了
  */
 public class NewMainWindow extends Application {
     public static  ObservableList<TableInfo> observableList = FXCollections.observableArrayList();
@@ -229,47 +229,7 @@ public class NewMainWindow extends Application {
             return objects;
         });
         boxArea.setCellFactory(param -> new boxCell());
-//        boxArea.setCellFactory(param -> {
-//            TableCell<TableInfo, List<SimpleStringProperty>> cell = new TableCell<TableInfo,List<SimpleStringProperty>>(){
-//                @Override
-//                protected void updateItem(List<SimpleStringProperty> item, boolean empty) {
-//                    super.updateItem(item, empty);
-//                    if (!empty){
-//                        String s = item.get(0).get();
-//                        Label label = new Label(s);
-//                        VBox vBox = new VBox();
-//                        if (item.size()==3){
-//                            Label down = new Label(item.get(1).get());
-//                            Label up = new Label(item.get(2).get());
-//                            down.setStyle("-fx-text-fill:black;"+"-fx-font-size: 13");
-//                            up.setStyle("-fx-text-fill: black;"+"-fx-font-size: 13");
-//                            vBox = new VBox(down,up);
-//                        }else {
-//                            Label tip = new Label(item.get(1).get());
-//                            tip.setStyle("-fx-text-fill:black;"+"-fx-font-size: 13");
-//                            vBox = new VBox(tip);
-//                        }
-//                        Tooltip tooltip = new Tooltip();
-//                        tooltip.setStyle("-fx-background-color: #FFFACD");
-//                        tooltip.setGraphic(vBox);
-//                        label.setTooltip(tooltip);
-//                        this.setOnMouseClicked(event -> {
-//                            TableInfo tableInfo = (TableInfo) this.getTableRow().getItem();
-//                            DayKWindow dayKWindow = new DayKWindow(tableInfo.getCode(), tableInfo.getData());
-//                            try {
-//                                dayKWindow.start(new Stage());
-//                            } catch (Exception e) {
-//                                throw new RuntimeException(e);
-//                            }
-//                        });
-//                        this.setGraphic(label);
-//                    }else {
-//                        this.setGraphic(new Label());
-//                    }
-//                }
-//            };
-//            return cell;
-//        });
+
         TableColumn<TableInfo, String> MaMsg = new TableColumn<>("均线排列");
         MaMsg.setCellValueFactory(param -> param.getValue().maMsgProperty());
         MaMsg.setCellFactory(param -> {

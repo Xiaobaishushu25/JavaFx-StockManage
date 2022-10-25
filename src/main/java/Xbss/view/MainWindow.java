@@ -39,6 +39,7 @@ import java.util.*;
 /**
  * @author Xbss
  * @version 1.0
+ * 2022-10-25：2.0 优化了滚动放大缩小的逻辑，修复了刻度不对的bug
  * @create 2022-07-13-23:40
  * @descirbe
  */

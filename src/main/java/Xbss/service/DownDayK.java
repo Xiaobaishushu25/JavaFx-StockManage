@@ -36,7 +36,6 @@ public class DownDayK {
         LocalDate begin= LocalDate.parse(beginDay);
         LocalDate end= LocalDate.parse(endDay);
         long between = DAYS.between(begin, end)+1;
-
         DownLoadStage.denominator=(int)between;
 
 //        String type=code.substring(0, 2);

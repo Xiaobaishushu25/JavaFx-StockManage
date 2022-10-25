@@ -41,13 +41,11 @@ class TableViewDragRows(private val tableView: TableView<TableInfo>, val stage: 
         }
         //松手拖动结束，删除拖动开始位置的元素并将其加入到结束拖动的位置
         row.setOnDragDropped {
-            endIndex= if(row.isEmpty)
-                tableView.items.size-1
-            else
-                row.index
-            println("将第$startIndex  个数据${it.dragboard.getContent(DataFormat.PLAIN_TEXT).toString()} 移动到第$endIndex 上")
+            endIndex= if(row.isEmpty) tableView.items.size-1 else row.index
+            println("将第$startIndex  个数据${it.dragboard.getContent(DataFormat.PLAIN_TEXT)} 移动到第$endIndex 上")
             synchronized(stage){
                 val removeData = MainWindow.observableList.removeAt(startIndex)
+                println("被删除的数据${removeData.name} 移动到第$endIndex 上")
                 MainWindow.observableList.add(endIndex,removeData)
             }
             it.isDropCompleted=true

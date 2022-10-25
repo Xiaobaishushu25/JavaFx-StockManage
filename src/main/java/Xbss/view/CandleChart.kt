@@ -10,7 +10,6 @@ import javafx.scene.Cursor
 import javafx.scene.canvas.Canvas
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.chart.NumberAxis
-import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.Separator
 import javafx.scene.input.MouseButton
@@ -48,7 +47,7 @@ class CandleChart(val name:String ,itemss:MutableList<CandleChartItem>):Region()
     private var leftAxis:NumberAxis
     private val root:GridPane
     private val boxPane:Pane
-
+    private val scrollArea = mutableMapOf<Int,Rectangle>()
     private var chooseChartItem = CandleChartItem("0",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0)
     init {
         originData=itemss.reversed() as MutableList<CandleChartItem>
@@ -73,7 +72,6 @@ class CandleChart(val name:String ,itemss:MutableList<CandleChartItem>):Region()
 //                    canvas.setItems(prepareData() as MutableList<CandleChartItem>)
             }
             val todayData = originData[originData.size - 1]
-            println("绘制时的最后一个数据 $todayData")
             val yesterdayData = originData[originData.size - 2]
             val msg = getDragPane(VBox(Label("  $name"),
                                        Separator(Orientation.HORIZONTAL),
@@ -99,6 +97,19 @@ class CandleChart(val name:String ,itemss:MutableList<CandleChartItem>):Region()
         computeData()
         drawCandleChart()
         registerListener()
+        canvas.localToScene(canvas.boundsInLocal).apply {
+            val d = (maxX - minX) / 5
+            println("最大纸 ：$minX")
+            println("最大纸 ：$maxX")
+            println("距离是：${maxX-minX}")
+            println("距离是：${(maxX-minX)/5}")
+            for (i in 1..5){
+                scrollArea[i] = Rectangle(minX+(i-1)*d,0.0,d,100.0)
+            }
+        }
+        for((x,y) in scrollArea){
+            println("第${x}是从${y.x} 宽度是${y.width}")
+        }
     }
     constructor(name: String,itemss:MutableList<CandleChartItem>, boxList: MutableList<Double>) : this(name,itemss) {
         this.boxValueList=boxList
@@ -277,39 +288,78 @@ class CandleChart(val name:String ,itemss:MutableList<CandleChartItem>):Region()
                     }
                 }
             }
-            showValuePopup(String.format("%.3f",(height-it.y) /scaleFactoryY+minValue),it.screenY)
+            showValuePopup(String.format("%.3f",(chartPreHeight-it.y) /scaleFactoryY+minValue),it.screenY)
         }
-        val foreNum =80
-        val backNum =80
-        var beginIndex=0//开始裁剪的位置
-        var endIndex=0//结束裁剪的位置
+//        val foreNum =80
+//        val backNum =80
+//        var beginIndex=0//开始裁剪的位置
+//        var endIndex=0//结束裁剪的位置
         canvas.setOnScroll {
-            for ((area,item) in nodeItem){
-                if (area.x<=it.x&&it.x<=area.x+area.width){//判断从哪里开始裁剪
-                    if (chooseChartItem!=item){//如果换中心item的话重新划定裁剪范围
-                        val index = originData.indexOf(item)
-                        beginIndex = if(index-foreNum>0) index-foreNum else 0
-                        endIndex = if(index+backNum>=originData.size) originData.size-1 else index+backNum
-                        setItems(originData.slice(beginIndex..endIndex)as MutableList<CandleChartItem> )
-                        chooseChartItem = item
-                    }else{ //没换的话直接在原开始结束位置自增自减就可以了
-                        if (it.deltaY<0){ //鼠标滚轮向下，范围扩大
-                            beginIndex=if (beginIndex-30>0) beginIndex-30 else 0
-                            endIndex = if (endIndex+30>=originData.size) originData.size-1 else endIndex+30
-                            setItems(originData.slice(beginIndex..endIndex)as MutableList<CandleChartItem> )
-                        }else{
-                            beginIndex += 30
-                            endIndex -= 30
-                            if(beginIndex>endIndex)
-                                setItems(originData.slice(beginIndex..beginIndex)as MutableList<CandleChartItem> )
-                            else
-                                setItems(originData.slice(beginIndex..endIndex)as MutableList<CandleChartItem> )
+            for ((index,area) in scrollArea){
+                if (area.x<=it.x&&it.x<=area.x+area.width) {
+                    println("在第$index 区域滚动")
+                    val flag = it.deltaY>0
+                        when(index){
+                            1 -> scrollClip(0,4,flag)
+                            2 -> scrollClip(1,3,flag)
+                            3 -> scrollClip(1,1,flag)
+                            4 -> scrollClip(3,1,flag)
+                            5 -> scrollClip(4,0,flag)
                         }
-                    }
-                    break
                 }
             }
+//            for ((area,item) in nodeItem){
+//                if (area.x<=it.x&&it.x<=area.x+area.width){//判断从哪里开始裁剪
+//                    if (chooseChartItem!=item){//如果换中心item的话重新划定裁剪范围
+//                        val index = originData.indexOf(item)
+//                        beginIndex = if(index-foreNum>0) index-foreNum else 0
+//                        endIndex = if(index+backNum>=originData.size) originData.size-1 else index+backNum
+//                        setItems(originData.slice(beginIndex..endIndex)as MutableList<CandleChartItem> )
+//                        chooseChartItem = item
+//                    }else{ //没换的话直接在原开始结束位置自增自减就可以了
+//                        if (it.deltaY<0){ //鼠标滚轮向下，范围扩大
+//                            beginIndex=if (beginIndex-30>0) beginIndex-30 else 0
+//                            endIndex = if (endIndex+30>=originData.size) originData.size-1 else endIndex+30
+//                            setItems(originData.slice(beginIndex..endIndex)as MutableList<CandleChartItem> )
+//                        }else{
+//                            beginIndex += 30
+//                            endIndex -= 30
+//                            if(beginIndex>endIndex)
+//                                setItems(originData.slice(beginIndex..beginIndex)as MutableList<CandleChartItem> )
+//                            else
+//                                setItems(originData.slice(beginIndex..endIndex)as MutableList<CandleChartItem> )
+//                        }
+//                    }
+//                    break
+//                }
+//            }
             it.consume()//把这个滚动事件消耗掉
+        }
+    }
+
+    /**
+     * TODO :根据传入的比例按一定比例切割
+     *
+     * @param left ：开始切割的索引
+     * @param right：结束切割的索引
+     * @param flag：flag为true代表滚轮向上，放大图即在items两端切割，为false代表滚轮向下
+     */
+    private fun scrollClip(left:Int,right:Int,flag:Boolean){
+        if (items.size<25&&flag) //如果已经放的很大并且还想放大，直接返回
+            return
+        val ratio = if (items.size<50) 5 else 10 //比率，当前蜡烛图已经很少的话减小比率，这样更精细可以放的更大
+        if(flag){
+            val beginIndex=ratio*left//开始裁剪的位置
+            val endIndex=items.size-ratio*right//结束裁剪的位置
+            println("当前数目是 ${items.size} 从$beginIndex 开始切割到$endIndex")
+            setItems(items.slice(beginIndex until  endIndex)as MutableList<CandleChartItem>)
+        }else{
+            val oldBeginIndex = originData.indexOf(items[0])
+            val oldEndIndex = originData.indexOf(items[items.size-1])
+            val beginIndex=if(oldBeginIndex-ratio*right<=0) 0 else oldBeginIndex-ratio*right//开始裁剪的位置
+            val endIndex=if (oldEndIndex+ratio*left>originData.size) originData.size else oldEndIndex+ratio*left//结束裁剪的位置
+            println("当前数目是 ${originData.size} 从$beginIndex 开始切割到$endIndex")
+            setItems(originData.slice(beginIndex until  endIndex)as MutableList<CandleChartItem>)
         }
     }
     //由于popup必须在窗口显示出来才能show，所以不得已把初始化箱体线抽离出来在stage.show()后才能调用
