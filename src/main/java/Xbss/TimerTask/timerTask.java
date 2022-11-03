@@ -4,12 +4,14 @@ import Xbss.bean.TableInfo;
 import Xbss.data.ComputeBoxArea;
 import Xbss.data.ComputePriceToMA;
 import Xbss.data.GetNowData;
+import Xbss.view.MainWindow;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.TimerTask;
 
 /**
@@ -34,14 +36,8 @@ public class timerTask extends TimerTask {
     @Override
     public void run() {
         synchronized (lock){
+//            System.out.println("更新线程名称是 "+Thread.currentThread().getName());
             observableList.forEach(tableInfo -> {
-//                String tableInfoCode = tableInfo.getCode();
-//                ArrayList<Object> nowData = GetNowData.getNowData(tableInfoCode);
-//                double price = Double.parseDouble(String.valueOf(nowData.get(1)));
-//                ObservableList<SimpleStringProperty> ossp = FXCollections.observableArrayList();
-//                ArrayList<String> boxArea = ComputeBoxArea.computeBoxArea(price, tableInfo.getData());
-//                boxArea.forEach(s -> ossp.add(new SimpleStringProperty(s)));
-//                SimpleListProperty<SimpleStringProperty> boxProperty = new SimpleListProperty<>(ossp);
                 tableInfoCode = tableInfo.getCode();
                 nowData = GetNowData.getNowData(tableInfoCode);
                 price = Double.parseDouble(String.valueOf(nowData.get(1)));
@@ -52,8 +48,13 @@ public class timerTask extends TimerTask {
                 tableInfo.setPrice(String.valueOf(price)+","+String.valueOf(nowData.get(2)))
                         .setChange(String.valueOf(nowData.get(2))).setBoxArea(boxProperty)
                         .setPriceToMa(ComputePriceToMA.computePriceToMA(price,tableInfo.getDayK()));
-//                       tableInfo.setBoxArea(boxProperty)
-//                        .setPriceToMa(ComputePriceToMA.computePriceToMA(price,tableInfo.getDayK()));
+                for (TableInfo t : MainWindow.originObservableList){
+                    if (Objects.equals(t.getCode(), tableInfoCode)){
+                        t.setPrice(String.valueOf(price)+","+String.valueOf(nowData.get(2)))
+                                .setChange(String.valueOf(nowData.get(2))).setBoxArea(boxProperty)
+                                .setPriceToMa(ComputePriceToMA.computePriceToMA(price,tableInfo.getDayK()));
+                    }
+                }
             });
         }
     }

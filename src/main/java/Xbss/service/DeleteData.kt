@@ -23,3 +23,10 @@ fun delete(code:String){
     delete.deleteStockInfo(code)
     session.close()
 }
+fun deleteNotice(id:String):Int{
+    val session = GetSqlSession.getSqlSession()
+    val delete = session.getMapper(DeleteData::class.java)
+    val i = delete.deleteNotice(id)
+    session.close()
+    return i
+}

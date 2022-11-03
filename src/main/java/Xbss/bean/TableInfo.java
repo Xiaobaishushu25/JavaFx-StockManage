@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import lombok.Data;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class TableInfo {
     private String name;//名称
     private SimpleStringProperty price=new SimpleStringProperty();//现价
     private SimpleStringProperty change=new SimpleStringProperty();//涨跌幅
-    private SimpleListProperty<SimpleStringProperty> boxArea=new SimpleListProperty<>();//箱体区域信息
+    private SimpleListProperty<SimpleStringProperty> boxArea=new SimpleListProperty<>();//箱体区域信息,列表一般包含三个string：StringProperty [value: 下轨区]StringProperty [value: 支撑位：2.255]StringProperty [value: 压力位：2.52]
 //    private ArrayList<SimpleStringProperty> boxArea=new ArrayList<>();
     private SimpleStringProperty MaMsg=new SimpleStringProperty();//均线多头缠绕空头信息
     private SimpleStringProperty priceToMa=new SimpleStringProperty();//现价与均线关系
@@ -149,5 +150,21 @@ public class TableInfo {
 
     public void setDayK(DayK dayK) {
         this.dayK = dayK;
+    }
+
+    @Override
+    public String toString() {
+        return "TableInfo{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", change=" + change +
+                ", boxArea=" + boxArea +
+                ", MaMsg=" + MaMsg +
+                ", priceToMa=" + priceToMa +
+                ", tip=" + tip +
+                ", data='" + data + '\'' +
+                ", dayK=" + dayK +
+                '}';
     }
 }

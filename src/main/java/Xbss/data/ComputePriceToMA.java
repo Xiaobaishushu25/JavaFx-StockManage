@@ -40,4 +40,18 @@ public class ComputePriceToMA {
         }
         return builder.toString();
     }
+
+    /**
+     *
+     * @param price :当前价格
+     * @param ma ：某条日线价格
+     * @return :true：价格已大于给定日线价格
+     *          false :价格已小于给定日线价格
+     */
+    public static boolean priceToCondition(Double price,Double ma){
+        if(price.compareTo(ma)>0)
+            return true;
+        else
+            return false;
+    }
 }

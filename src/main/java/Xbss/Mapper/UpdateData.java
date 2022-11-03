@@ -21,4 +21,8 @@ public interface UpdateData {
     Integer updateGoldOrDie(@Param("buy")String flag,@Param("code")String code);
     @Update("UPDATE stockinfo SET `index`=#{index} WHERE `code` = #{code}")
     Integer updateIndex(@Param("index")Integer index,@Param("code")String code);
+    @Update("UPDATE notice SET `isTrigger`=#{isTrigger},`triggerTime`=#{triggerTime} WHERE id = #{id}")
+    Integer updateNotice(@Param("id")String id,@Param("isTrigger")int isTrigger,@Param("triggerTime")String triggerTime);
+    @Update("UPDATE notice SET `isRead`=#{isRead} WHERE id = #{id}")
+    Integer updateNoticeRead(@Param("id")String id,@Param("isRead")int isRead);
 }

@@ -16,6 +16,6 @@ interface DeleteData {
     fun deleteTable(@Param("tableName")tableName: String)
     @Delete("DELETE FROM stockinfo WHERE code = #{code}")
     fun deleteStockInfo(@Param("code")code: String)
-//    @Select("select * from ${'$'}{tableName}")
-//    fun selectByCode(@Param("tableName") tableName: String?): List<DayK?>?
+    @Delete("DELETE FROM notice WHERE `id` = #{id}")
+    fun deleteNotice(@Param("id")id: String):Int
 }

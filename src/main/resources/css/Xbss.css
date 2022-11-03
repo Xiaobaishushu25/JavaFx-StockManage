@@ -1,3 +1,16 @@
+.Xbss-label{
+    -fx-font-size: 16px;
+}
+.Xbss-label-url{
+    -fx-text-fill:  #00CED1;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+}
+.Xbss-label-url:hover{
+    /* 上 右 下 左*/
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: #00CED1;
+}
 .Xbss-check-box{
     -fx-background-color: #00FFFF;
     -fx-background-radius: 10px;
@@ -23,3 +36,80 @@
     -fx-border-color: blue;
     -fx-border-width: 2px;
 }
+.Xbss-hbox-down{
+    -fx-background-color:linear-gradient(to right,rgba(192,255,62,0.1) ,rgba(192,255,62,0.8))
+}
+.Xbss-hbox-up{
+    -fx-background-color:linear-gradient(to right,rgba(255,130,71,0.1) ,rgba(255,130,71,0.8))
+}
+.Xbss-color-picker{
+    -fx-background-color:#FFF68F;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: blue;
+    -fx-border-width: 2px;
+}
+.Xbss-color-picker>.arrow-button{
+    -fx-background-image: url("img/checkbox.png");
+    -fx-background-color:red;
+}
+.Xbss-text,.Xbss-text-info,.Xbss-text-up,.Xbss-text-down{
+    -fx-font-size: 16;
+}
+.Xbss-text-info{
+    -fx-fill: blue;
+    -fx-cursor: hand;
+}
+.Xbss-text-up{
+    -fx-fill: red;
+    -fx-font-size: 20;
+}
+.Xbss-text-down{
+    -fx-fill: green;
+    -fx-font-size:20;
+}
+
+.Xbss-tab {
+    -fx-background-color: #00EE0000;
+    -fx-font-size: 18;
+}
+
+/* TabPane */
+.Xbss-tab-pane .tab-header-area .tab-header-background{
+    -fx-background-color: #00EE0000;  /*设置头部区域背景透明*/
+}
+.Xbss-tab-pane .tab-header-area .tab {
+    -fx-background-color:#00EE0000;
+    -fx-font-size: 16;
+    -fx-border-color: #00EE0000;
+}
+.Xbss-tab-pane .tab-header-area .tab:selected{
+    -fx-background-color:#DDA0DD60;
+    -fx-font-size: 16;
+    -fx-border-color: #00EE0000;
+}
+.Xbss-tab-pane .tab-header-area .tab:selected .focus-indicator{
+    -fx-border-width: 0;
+    -fx-border-radius: 4;
+}
+
+/* ListView */
+.Xbss-list-view{
+    -fx-background-insets: 0;
+    -fx-padding:0px;
+    -fx-border-color: border-color;
+    -fx-border-width: 1px;
+    -fx-font-size: 14px;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+    /*-fx-background-color: transparent;*/
+    -fx-background-color: #00EE0000;
+}
+/*.Xbss-list-view > .virtual-flow > .clipped-container > .sheet > .indexed-cell:focused{*/
+/*.Xbss-list-view .virtual-flow .clipped-container .sheet .indexed-cell:focused{*/
+/*    -fx-text-fill: black; !*选中的也是黑色字体，实现点击没有效果的效果 *!*/
+/*}*/
+.Xbss-list-view .virtual-flow .clipped-container .sheet .cell{
+    -fx-background-color: #00EE0000; /* 把单元格背景透明 */
+}
+

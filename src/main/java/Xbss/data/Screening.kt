@@ -22,6 +22,7 @@ object delete{
  */
 fun screening(observableList: ObservableList<TableInfo>,boxList:MutableList<String>,maMsgList:MutableList<String>, maToPriceList:MutableList<String>,timer:Any){
     synchronized(timer){
+//        println("筛选线程名称是 ${Thread.currentThread().name}")
         val iterator = observableList.iterator()
         var i=0
         while (iterator.hasNext()){
@@ -30,17 +31,17 @@ fun screening(observableList: ObservableList<TableInfo>,boxList:MutableList<Stri
                 iterator.remove()
                 delete.deleteInfo.add(tableInfo)
                 i++
-                println("删除了$$i 因为箱体不符")
+//                println("删除了$$i 因为箱体不符")
             }else if (!judge(tableInfo.maMsg.toString(),maMsgList)){
                 iterator.remove()
                 delete.deleteInfo.add(tableInfo)
                 i++
-                println("删除了$$i 因为均线不符")
+//                println("删除了$$i 因为均线不符")
             }else if (!judge(tableInfo.priceToMa,maToPriceList)){
                 iterator.remove()
                 delete.deleteInfo.add(tableInfo)
                 i++
-                println("删除了$$i 因为价格均线不符")
+//                println("删除了$$i 因为价格均线不符")
             }
         }
     }

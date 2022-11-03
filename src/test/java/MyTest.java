@@ -19,6 +19,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import Xbss.Mapper.Query;
 
+import javax.sound.midi.Soundbank;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +28,8 @@ import java.net.CookieHandler;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.List;
 
@@ -229,6 +232,18 @@ public class MyTest  {
             System.out.println(i);
         }
     }
-
+    @Test
+    public void test17(){
+        LocalDateTime now = LocalDateTime.now();
+        LocalTime now1 = LocalTime.now();
+        System.out.println(now);
+        System.out.println(now1);
+    }
+    @Test
+    public void test18(){
+        String x = "2022-11-02T09:51:14.077";
+        String x1 = "2022-11-02T09:52:14.077";
+//        System.out.println(x>x1);
+    }
 
 }

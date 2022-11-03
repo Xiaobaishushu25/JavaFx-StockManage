@@ -1,6 +1,7 @@
 package Xbss.Mapper;
 
 import Xbss.bean.DayK;
+import Xbss.bean.NoticeData;
 import Xbss.bean.StockInfo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -29,4 +30,6 @@ public interface Query {
     ArrayList<DayK> queryDayKByNum(@Param("tableName") String tableName, @Param("num")Integer num);
     @Select("SELECT * FROM ${tableName} WHERE date=(SELECT MAX(date) FROM ${tableName})")
     DayK queryLatestDayKByCode(@Param("tableName") String tableName);
+    @Select("SELECT * FROM notice ORDER BY createTime DESC")
+    ArrayList<NoticeData> queryAllNotice();
 }

@@ -57,3 +57,17 @@ fun updateIndexList(observableList: ObservableList<TableInfo>){
         update.updateIndex(index, value.code)
     session.close()
 }
+fun updateNotice(id:String,isTrigger:Int,triggerTime:String):Int{
+    val session = GetSqlSession.getSqlSession()
+    val update = session.getMapper(UpdateData::class.java)
+    val i = update.updateNotice(id,isTrigger,triggerTime)
+    session.close()
+    return i
+}
+fun updateNoticeRead(id:String,isRead:Int):Int{
+    val session = GetSqlSession.getSqlSession()
+    val update = session.getMapper(UpdateData::class.java)
+    val i = update.updateNoticeRead(id,isRead)
+    session.close()
+    return i
+}

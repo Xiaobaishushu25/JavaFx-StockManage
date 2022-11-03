@@ -1,5 +1,6 @@
 package Xbss.view;
 
+import Xbss.TimerTask.NoticeTimerTask;
 import Xbss.TimerTask.timerTask;
 import Xbss.Utils.DoubleUtil;
 import Xbss.Utils.GetImage;
@@ -9,7 +10,9 @@ import Xbss.bean.StockInfo;
 import Xbss.bean.TableInfo;
 import Xbss.data.*;
 import Xbss.service.*;
+import Xbss.view.UIFun.InitSystemTray;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -24,27 +27,25 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 
-import java.io.File;
 import java.util.*;
 
 /**
  * @author Xbss
  * @version 1.0
- * 2022-10-25：2.0 优化了滚动放大缩小的逻辑，修复了刻度不对的bug
+ * 2022-10-25：2.0 优化了滚动放大缩小的逻辑、修复了刻度不对的bug
+ * 2022-11-2：3.0  添加了消息通知页面、增加了监控功能、增加了证券删除确认步骤、增加了收到系统托盘以便在后台挂起功能
  * @create 2022-07-13-23:40
  * @descirbe
  */
 public class MainWindow extends Application {
-    public static  ObservableList<TableInfo> observableList = FXCollections.observableArrayList();
+    public static  ObservableList<TableInfo> observableList = FXCollections.observableArrayList();//表格维护的所有显示数据
+    public static  ObservableList<TableInfo> originObservableList = FXCollections.observableArrayList();//表格维护的所有显示数据
     private static ArrayList<Object> nowData =new ArrayList<Object>();
     private List<String> DayKMsg=new ArrayList<>();//这个DayKMsg用于存储更新后计算的金叉死叉和日线多空数据
     private SimpleBooleanProperty ready=new SimpleBooleanProperty(false);//程序启动时后台更新数据完成后会更改此属性为true
@@ -95,12 +96,11 @@ public class MainWindow extends Application {
         HBox hBox = new HBox(textField, search,msg,add);
         hBox.setSpacing(30);
         hBox.setPadding(new Insets(10,0,10,20));
-//        ObservableList<TableInfo> observableList = FXCollections.observableArrayList();
         ObservableList<SimpleStringProperty> wu = FXCollections.observableArrayList(new SimpleStringProperty("无"),new SimpleStringProperty("无"),new SimpleStringProperty("无"));
         for (StockInfo stockInfo : QueryAllStock.queryAllStock()) {
             DayK dayK = QueryLatestDayK.queryLatestDayK(stockInfo.getCode());
-//            observableList.add(new TableInfo(stockInfo.getCode(),stockInfo.getName(),new SimpleStringProperty("无"),new SimpleStringProperty("无"), new SimpleListProperty<>(wu),new SimpleStringProperty(ComputeMAMsg.computeMAMsg(dayK)),new SimpleStringProperty("无"),new SimpleStringProperty("无"),stockInfo.getBox(),dayK));
             observableList.add(new TableInfo(stockInfo.getCode(),stockInfo.getName(),new SimpleStringProperty("无"),new SimpleStringProperty("无"), new SimpleListProperty<>(wu),new SimpleStringProperty(ComputeRelateKt.computeGoldOrDie(stockInfo,dayK)),new SimpleStringProperty("无"),new SimpleStringProperty("无"),stockInfo.getBox(),dayK));
+            originObservableList.add(new TableInfo(stockInfo.getCode(),stockInfo.getName(),new SimpleStringProperty("无"),new SimpleStringProperty("无"), new SimpleListProperty<>(wu),new SimpleStringProperty(ComputeRelateKt.computeGoldOrDie(stockInfo,dayK)),new SimpleStringProperty("无"),new SimpleStringProperty("无"),stockInfo.getBox(),dayK));
         }
         add.setOnAction(event -> {
             StockInfo info = QueryStockByCode.queryStockByCode(textField.getText());
@@ -123,6 +123,7 @@ public class MainWindow extends Application {
                     DayK dayK = QueryLatestDayK.queryLatestDayK(nowData.get(3).toString());
                     StockInfo stockInfo = QueryStockByCode.queryStockByCode(nowData.get(3).toString());
                     observableList.add(new TableInfo(nowData.get(3).toString(),nowData.get(0).toString(),new SimpleStringProperty("无"),new SimpleStringProperty("无"), new SimpleListProperty<>(wu),new SimpleStringProperty(ComputeMAMsg.computeMAMsg(dayK)),new SimpleStringProperty("无"),new SimpleStringProperty("无"),stockInfo.getBox(),dayK));
+                    originObservableList.add(new TableInfo(nowData.get(3).toString(),nowData.get(0).toString(),new SimpleStringProperty("无"),new SimpleStringProperty("无"), new SimpleListProperty<>(wu),new SimpleStringProperty(ComputeMAMsg.computeMAMsg(dayK)),new SimpleStringProperty("无"),new SimpleStringProperty("无"),stockInfo.getBox(),dayK));
                 }).start();
 
             }
@@ -364,17 +365,30 @@ public class MainWindow extends Application {
                 UpdateDayK.updateDayK();
             }).start();
         });
+        Button sleep = new Button("休眠");
+        sleep.getStyleClass().addAll("cf-info-but","round");
+        Pane pane = new Pane();
         Button choose = new Button("筛选");
         choose.setDisable(true);//后台数据更新未完成不能筛选
         choose.getStyleClass().addAll("cf-info-but","round");
-        Button sleep = new Button("休眠");
-        sleep.getStyleClass().addAll("cf-info-but","round");
-        HBox bottm = new HBox(sleep,choose,update);
+        Button news = new Button("消息");
+        news.getStyleClass().addAll("cf-info-but","round");
+        news.setStyle("-fx-background-color: #FFA500");
+        news.setOnAction(event -> {
+            NoticeStage noticeStage = new NoticeStage();
+            noticeStage.start(new Stage());
+//            if (!NoticeStage.Companion.getStage().isShowing()){
+//                new NoticeStage();
+//            }
+        });
+        HBox bottm = new HBox(sleep,pane,news,choose,update);
+        HBox.setHgrow(pane, Priority.ALWAYS);
         bottm.setSpacing(20);
         bottm.setAlignment(Pos.BOTTOM_RIGHT);
         ready.addListener((observable, oldValue, newValue) -> {
             if (DayKMsg.size()!=0){
                 ComputeRelateKt.updateObservableList(observableList,DayKMsg);
+                ComputeRelateKt.updateObservableList(originObservableList,DayKMsg);
             }
             choose.setDisable(false);
         });
@@ -395,21 +409,21 @@ public class MainWindow extends Application {
         box.setPadding(new Insets(20));
         box.setSpacing(20);
         Scene scene = new Scene(box);
-        scene.getStylesheets().addAll("css/core.css","css/color.css");
+        scene.getStylesheets().addAll("css/core.css","css/color.css","css/Xbss.css");
         primaryStage.setScene(scene);
         primaryStage.setWidth(900);
         primaryStage.setHeight(700);
-        primaryStage.setTitle("金融宝典 v5.0");
+        primaryStage.setTitle("金融宝典 v6.0");
         primaryStage.getIcons().add(new Image("img/股票分析.png"));
         primaryStage.show();
         double colPrefWidth = DoubleUtil.subDouble(tableView.getWidth(),445.0)/3.0;
         price.setPrefWidth(colPrefWidth);
-//        change.setPrefWidth(colPrefWidth);
         change.setMinWidth(colPrefWidth);
         boxArea.setPrefWidth(colPrefWidth);
         MaMsg.setPrefWidth(colPrefWidth);
 //        Timer timer = new Timer();
         timer = new Timer();
+        Timer noticeTimer = new Timer();
 //        TimerTask timerTask = new TimerTask() {//定时任务，每过5秒查询并更新数据
 //            @Override
 //            public void run() {
@@ -431,7 +445,9 @@ public class MainWindow extends Application {
 //        };
 //        timer.scheduleAtFixedRate(timerTask, 0, 5000);
         timerTask timerTask = new timerTask(primaryStage, observableList);
-        timer.scheduleAtFixedRate(timerTask, 0, 5000);
+        NoticeTimerTask noticeTimerTask = new NoticeTimerTask();
+        timer.scheduleAtFixedRate(timerTask, 0, 10000);
+        noticeTimer.scheduleAtFixedRate(noticeTimerTask,30000,20000);
         ScreeningPop screeningPop = new ScreeningPop(primaryStage, timer);
         screeningPop.start(new Stage());
         choose.setOnAction(event -> {
@@ -443,12 +459,17 @@ public class MainWindow extends Application {
                 sleep.textProperty().set("启动");
             }else {
                 timer=new Timer();
-                timer.scheduleAtFixedRate(new timerTask(primaryStage,observableList), 0, 5000);
+                timer.scheduleAtFixedRate(new timerTask(primaryStage,observableList), 0, 10000);
                 sleep.textProperty().set("休眠");
             }
         });
+        Platform.setImplicitExit(false);
+        InitSystemTray.Companion.initSystemTray(primaryStage,Notification.Companion.getEmptyStage(),sleep,timer,noticeTimer);
         primaryStage.setOnCloseRequest(event -> {
-            timer.cancel();
+            System.out.println("关闭前的操作");
+//            timer.cancel();
+//            noticeTimer.cancel();
+//            Notification.Companion.getEmptyStage().close();
             UpdateKt.updateIndexList(observableList);
         });
     }

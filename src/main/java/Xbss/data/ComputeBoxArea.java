@@ -10,6 +10,15 @@ import java.util.ArrayList;
  * @descirbe
  */
 public class ComputeBoxArea {
+    /**
+     *
+     * @param price
+     * @param box
+     * @return :返回一个列表，有三种情况：
+     *          ①已跌破箱体 + 箱体下轨value
+     *          ①已突破箱体 + 箱体上轨value
+     *          ①X轨区 + 箱体下轨value + 箱体上轨value
+     */
     public static ArrayList<String> computeBoxArea(Double price,String box){
         ArrayList<String> list = new ArrayList<>();
         if (box.endsWith(",999")){
@@ -17,7 +26,6 @@ public class ComputeBoxArea {
             box=box.substring(0,box.length()-4);
         }
         String[] boxs = box.split(",");
-
         for (int i = 0; i < boxs.length; i++) {
             if(price.compareTo(Double.parseDouble(boxs[0]))<0){
                 list.add("已跌破箱体");

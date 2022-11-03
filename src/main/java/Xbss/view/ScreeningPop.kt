@@ -136,7 +136,9 @@ class ScreeningPop(val stage: Stage, private val timer: Any):Application() {
         }
     }
     fun show(){
-        popup.show(stage,150.0,300.0)
+        if (!popup.isShowing){
+            popup.show(stage,150.0,300.0)
+        }
     }
 }
 fun getCheckBox(text:String):CheckBox{

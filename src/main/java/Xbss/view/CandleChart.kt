@@ -99,16 +99,9 @@ class CandleChart(val name:String ,itemss:MutableList<CandleChartItem>):Region()
         registerListener()
         canvas.localToScene(canvas.boundsInLocal).apply {
             val d = (maxX - minX) / 5
-            println("最大纸 ：$minX")
-            println("最大纸 ：$maxX")
-            println("距离是：${maxX-minX}")
-            println("距离是：${(maxX-minX)/5}")
             for (i in 1..5){
                 scrollArea[i] = Rectangle(minX+(i-1)*d,0.0,d,100.0)
             }
-        }
-        for((x,y) in scrollArea){
-            println("第${x}是从${y.x} 宽度是${y.width}")
         }
     }
     constructor(name: String,itemss:MutableList<CandleChartItem>, boxList: MutableList<Double>) : this(name,itemss) {
@@ -340,8 +333,8 @@ class CandleChart(val name:String ,itemss:MutableList<CandleChartItem>):Region()
     /**
      * TODO :根据传入的比例按一定比例切割
      *
-     * @param left ：开始切割的索引
-     * @param right：结束切割的索引
+     * @param left ：左边的比例
+     * @param right：右边的比例
      * @param flag：flag为true代表滚轮向上，放大图即在items两端切割，为false代表滚轮向下
      */
     private fun scrollClip(left:Int,right:Int,flag:Boolean){
@@ -354,7 +347,7 @@ class CandleChart(val name:String ,itemss:MutableList<CandleChartItem>):Region()
             println("当前数目是 ${items.size} 从$beginIndex 开始切割到$endIndex")
             setItems(items.slice(beginIndex until  endIndex)as MutableList<CandleChartItem>)
         }else{
-            val oldBeginIndex = originData.indexOf(items[0])
+            val oldBeginIndex = originData.indexOf(items[0]) //当前第一个蜡烛图在全部数据的位置
             val oldEndIndex = originData.indexOf(items[items.size-1])
             val beginIndex=if(oldBeginIndex-ratio*right<=0) 0 else oldBeginIndex-ratio*right//开始裁剪的位置
             val endIndex=if (oldEndIndex+ratio*left>originData.size) originData.size else oldEndIndex+ratio*left//结束裁剪的位置
@@ -448,9 +441,11 @@ class CandleChart(val name:String ,itemss:MutableList<CandleChartItem>):Region()
             }
         }
     }
+    //根据传入的值计算y的数值
     private fun computeBoxLineYByValue(value:Double):Double{
         return chartPreHeight-(value - minValue) * scaleFactoryY
     }
+    //根据传入的y值计算value的数值
     private fun computeBoxValueYByY(y:Double):Double{
         return String.format("%.3f",(chartPreHeight-y) /scaleFactoryY+minValue).toDouble()
     }

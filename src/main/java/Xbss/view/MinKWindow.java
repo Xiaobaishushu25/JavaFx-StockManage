@@ -15,11 +15,9 @@ import javafx.stage.Stage;
  */
 public class MinKWindow extends Application {
     private  String code;
-
     public MinKWindow(String code) {
         this.code = code;
     }
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         VBox box = new VBox(GetKLineImg.getMinKImg(code));

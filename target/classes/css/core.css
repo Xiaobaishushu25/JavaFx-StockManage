@@ -539,8 +539,8 @@
 .cf-combo-box{
     -fx-background-color: transparent;
     /*-fx-padding: 0 15px 0 15px;*/
-    -fx-pref-height: 32px;
-    -fx-pref-width: 200px;
+    /*-fx-pref-height: 32px;*/
+    /*-fx-pref-width: 200px;*/
     -fx-font-size: 14px;
     -fx-font-weight: 400;
     -fx-border-color: border-color;
