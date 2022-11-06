@@ -1,5 +1,6 @@
 # 一个用javafx写的看股票的小工具目前只做了看etf的，只需要配置一下数据库就可以运行
-v6.0：添加了消息通知页面、增加了监控功能、增加了证券删除确认步骤、增加了收到系统托盘以便在后台挂起功能、对k线图优化了滚动放大缩小的逻辑并修复了刻度不对的bug
+v6.0：添加了消息通知页面、增加了监控功能、增加了证券删除确认步骤、增加了收到系统托盘以便在后台挂起功能、对k线图优化了滚动放大缩小的逻辑并修复了刻度不对的bug、增加了触发后发送邮件提醒的功能
+![image](https://user-images.githubusercontent.com/76581880/200163692-f839fc6c-472c-4764-b470-323eb5f04b53.png)
 ![image](https://user-images.githubusercontent.com/76581880/199657555-a45e2594-0223-4dab-a234-ca650a6c8f32.png)
 ![image](https://user-images.githubusercontent.com/76581880/199657580-e7a4e9db-35d3-4592-afbf-f83118d4270c.png)
 ![image](https://user-images.githubusercontent.com/76581880/199657604-b7cc4ec3-7145-4385-913e-5c45ec8bd411.png)
