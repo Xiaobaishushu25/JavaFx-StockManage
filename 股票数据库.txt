@@ -1,0 +1,91 @@
+CREATE DATABASE IF NOT EXISTS `stock` DEFAULT CHARACTER SET utf8 ;
+CREATE TABLE `sh_515030` (
+  `name` varchar(10) DEFAULT NULL,
+	`date` date		DEFAULT NULL ,
+	`open` varchar(30) DEFAULT NULL,
+	`close` varchar(30) DEFAULT NULL,
+	`high` varchar(30) DEFAULT NULL,
+	`low` varchar(30) DEFAULT NULL,
+	`vol` varchar(40) DEFAULT NULL,
+	`MA5` varchar(30) DEFAULT NULL,
+	`MA10` varchar(30) DEFAULT NULL,
+	`MA20` varchar(30) DEFAULT NULL,
+	`MA60` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DESC sh_515030
+
+check table sh_515030;
+ALTER TABLE stockinfo MODIFY COLUMN box varchar(60) DEFAULT NULL
+
+ALTER TABLE stockinfo ADD  `index` INT(4) DEFAULT NULL FIRST
+  
+DESC stockinfo
+
+select * from stockInfo ORDER BY `index` ASC
+
+CREATE TABLE `stockInfo` (
+  `code` varchar(10) DEFAULT NULL,
+  `name` varchar(10) DEFAULT NULL,
+	`box` varchar(30) DEFAULT NULL,
+	`buy` varchar(40) DEFAULT NULL,
+	`sell` varchar(40) DEFAULT NULL,
+	`allMax` varchar(10) DEFAULT NULL,
+	`allMin` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `notice` (
+  `id` varchar(20) DEFAULT NULL,
+  `code` varchar(10) DEFAULT NULL,
+  `name` varchar(10) DEFAULT NULL,
+	`direction` varchar(20) DEFAULT NULL,
+	`condition` varchar(20) DEFAULT NULL,
+	`isTrigger` INT DEFAULT NULL,
+	`createTime` varchar(40) DEFAULT NULL,
+	`triggerTime` varchar(40) DEFAULT NULL,
+	`data` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE notice ADD  `message` varchar(80) DEFAULT NULL 
+
+CREATE TABLE `address` (
+  `address` varchar(30) DEFAULT NULL,
+  `name` varchar(20) DEFAULT NULL,
+	`createTime` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+SELECT * FROM sz_159967
+
+SELECT * FROM sh_515030 ORDER BY date DESC LIMIT 5
+SELECT count(*) FROM sh_515030
+
+SELECT * FROM sh_515030 WHERE date <'2022-7-5' AND date >'2022-4-5'
+
+SELECT * FROM sh_515030 WHERE date=(SELECT MAX(date) FROM sh_515030)
+SELECT * FROM sh_515030 ORDER BY date DESC LIMIT 3
+
+UPDATE sh_515030 SET MA5=5.0,MA10=4.63,MA20=1.25,MA60=6.36 WHERE date = '2022-7-4'
+
+SELECT * FROM stockinfo
+DELETE FROM stockinfo WHERE code=512690
+
+UPDATE stockinfo SET box='1.26,12.3,45.0' WHERE `code` = 515030
+
+DELETE FROM sz_159967 //删除表中的数据
+DESC stockinfo
+
+select * from stockInfo where code = 512760
+INSERT INTO sh_515030 VALUES('新能源车','2022-07-12','12','13.2','15.6','45.6','156','15.3','156.3','19.3','45.6');
+INSERT INTO stockinfo(`code`,`name`,allMax,allMin) VALUES('515031','测试','0.0','2000.0');
+
+SELECT * FROM notice ORDER BY createTime DESC
+DELETE FROM notice WHERE `id`=123456
+DELETE FROM notice 
+ALTER TABLE notice ADD  `isRead` INT(4) DEFAULT NULL 
+INSERT INTO notice(`id`,`code`,`name`,`direction`,`condition`,`isTrigger`,`createTime`,`triggerTime`,`data`) VALUES('123456','515031','测试','突破','2000.0','0','2022-11-1','no','1.245');
+
+SELECT * FROM address ORDER BY createTime DESC
+
+
+
+
