@@ -1,4 +1,5 @@
 # 一个用javafx写的看股票的小工具目前只做了看etf的，只需要配置一下数据库就可以运行
+已使用rust重构，请移步https://github.com/Xiaobaishushu25/trade_tip
 v6.0：添加了消息通知页面、增加了监控功能、增加了证券删除确认步骤、增加了收到系统托盘以便在后台挂起功能、对k线图优化了滚动放大缩小的逻辑并修复了刻度不对的bug、增加了触发后发送邮件提醒的功能
 ![image](https://user-images.githubusercontent.com/76581880/200163692-f839fc6c-472c-4764-b470-323eb5f04b53.png)
 ![image](https://user-images.githubusercontent.com/76581880/199657555-a45e2594-0223-4dab-a234-ca650a6c8f32.png)
